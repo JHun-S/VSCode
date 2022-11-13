@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Chart. JS</title>
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+
+  <body>
+    <div class="container">
+      <canvas id="myChart"></canvas>
+      <canvas
+        id="canvas1"
+        width="400"
+        height="230"
+        aria-label="First Aria"
+      ></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"
+      integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+		
+    <script>
+      const data = [
+        { x: "Jan", net: 100, cogs: 50, gm: 50 },
+        { x: "Feb", net: 120, cogs: 55, gm: 75 },
+      ];
+      const cfg = {
+        type: "line",
+        data: {
+          labels: ["Jan", "Feb"],
+          datasets: [
+            {
+              label: "Net sales",
+              data: data,
+              parsing: {
+                yAxisKey: "net",
+              },
+            },
+            {
+              label: "Cost of goods sold",
+              data: data,
+              parsing: {
+                yAxisKey: "cogs",
+              },
+            },
+            {
+              label: "Gross margin",
+              data: data,
+              parsing: {
+                yAxisKey: "gm",
+              },
+            },
+          ],
+        },
+      };
+    </script>
+
+    <script>
+      const ctx = document.getElementById("canvas1").getContext("2d");
+
+      const resultChart = new Chart(ctx, cfg);
+    </script>
+  </body>
+</html>

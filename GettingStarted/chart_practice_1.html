@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>My Chart. JS</title>
+
+<link rel="stylesheet" href = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+<!-- ----------------------------공간생성------------------------------ -->
+	<div class = "container">
+		<!-- 캔버스 : 차트를 그릴 공간 -->
+		<canvas id="myChart"></canvas>
+		<canvas id="canvas1" width="400" height="230" aria-label="First Aria"></canvas>
+	</div>
+
+	<!-- ------------------------------준비&설치-------------------------------- -->
+	<script src="https://cdn.jsdelivr.net/npm/chart.js">
+					// chart.js를 받아오는 링크
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" 
+					integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" 
+					crossorigin="anonymous" 
+					referrerpolicy="no-referrer">
+					// 추가적인 라이브러리 받아오는 링크
+	</script>
+
+	<script>
+		// 공식문서 참고해서 추가한 helpers import문
+		import Chart from 'chart.js/auto';
+		import { getRelativePosition } from 'chart.js/helpers';
+	</script>
+
+<!-- ------------------------------차트내용 준비-------------------------------- -->
+	<script>
+		// 선언부와 구동부로 나누어 구성함
+		// 'labels'와 'datasets'을, 즉 내용물을 여기서 준비한다
+		
+		const labels = ['Feature1', 'Feature2', 'Feature3', 'Feature4', 'Feature5', 'Feature6', 'Feature7'];
+		// x축 항목
+	
+		const data = {
+			labels: labels,
+			// 위의 labels 사용
+
+		//-------------------------Fail code-----------------------------
+		// 레이블별로 묶어줘야 정상작동...
+		//
+		// 	datasets: [
+		// 		{
+		// 		label: ['Your Company', 
+		// 						'Company A',
+		// 						'Company B',
+		// 						'Company C',
+		// 						'Company D',
+		// 		],
+		// 		data: [[2, 1, 1, 2, 1, 3, 1],
+		// 					[5, 4, 5, 5, 5, 4, 5],
+		// 					[1, 3, 2, 1, 2, 2, 4],
+		// 					[4, 3, 5, 1, 2, 3, 2],
+		// 					[1, 1, 3, 4, 2, 1, 3],
+		// 		],
+		// 		borderColor: ['rgb(255, 99, 132, 1)',
+		// 									'rgb(75, 192, 192, 1)',
+		// 									'rgb(54, 162, 235, 1)',
+		// 									'rgb(153, 102, 255, 1)',
+		// 									'rgb(201, 203, 207, 1)',
+		// 		],
+		// 		backgroundColor: ['rgb(255, 99, 132, 0.5)',
+		// 											'rgb(75, 192, 192, 0.5)',
+		// 											'rgb(54, 162, 235, 0.5)',
+		// 											'rgb(153, 102, 255, 0.5)',
+		// 											'rgb(201, 203, 207, 0.5)',
+		// 		],
+		// 		}
+		// 	]
+		// };
+		//----------------------------------------------------------------
+
+			datasets: [
+				{
+				label: 'Your Company', 
+				data: [2, 1, 1, 2, 1, 3, 1],
+				borderColor:'rgb(255, 99, 132, 1)',
+				backgroundColor: 'rgb(255, 99, 132, 0.5)',
+				},
+				{
+				label: 'Company D', 
+				data: [5, 4, 5, 5, 5, 4, 5],
+				borderColor: 'rgb(75, 192, 192, 1)',
+				backgroundColor: 'rgb(75, 192, 192, 0.5)',
+				},
+				{
+				label: 'Company E', 
+				data: [1, 3, 2, 1, 2, 2, 4],
+				borderColor: 'rgb(54, 162, 235, 1)',
+				backgroundColor: 'rgb(54, 162, 235, 0.5)',
+				},
+				{
+				label: 'Company F', 
+				data: [4, 3, 5, 1, 2, 3, 2],
+				borderColor: 'rgb(153, 102, 255, 1)',
+				backgroundColor: 'rgb(153, 102, 255, 0.5)',
+				},
+				{
+				label: 'Company G', 
+				data: [1, 1, 3, 4, 2, 1, 3],
+				borderColor: 'rgb(201, 203, 207, 1)',
+				backgroundColor: 'rgb(201, 203, 207, 0.5)',
+				},
+			]
+		};
+
+		//------------------------------설정(형태, 옵션 등)--------------------------------
+		const config = {
+			type: 'line',
+			// line: 라인 그래프 형식, bar: 막대그래프 형식 등
+
+			data: data,
+			// 위에서 만들어둔 data 사용
+
+			options: {
+				onClick: (e) => {
+					// 마우스가 있는 곳의 좌표를 알려주는 기능
+					const canvasPosition = getRelativePosition(e, chart);
+
+					// Substitute the appropriate scale IDs
+					const dataX = chart.scales.x.getValueForPixel(canvasPosition.x);
+					const dataY = chart.scales.y.getValueForPixel(canvasPosition.y);
+				},
+
+				scales: {
+					y: {
+						// y축 0부터 시작
+						beginAtZero: true
+					}
+				},
+
+				responsive: true,
+				// 창의 크기에 따라 차트의 크기가 반응하여 조절됨
+
+				plugins: {
+					// 옵션의 플러그인
+					legend: {
+						// 범례의 위치
+						display: true,
+						position: 'left',
+							labels: {
+								padding: 50,
+									font: {
+										size: 20
+									}
+							}
+					},
+
+					title: {
+						display: true,
+						align: 'center',
+						fullSize: true,
+						text: 'Is everything OK?',
+							font: {
+								size: 40,
+								weight: 'bold'
+							},
+							padding: {
+								bottom: 20
+							}
+					}
+				}
+			}
+		}
+	</script>
+<!-- ------------------------------구현부-------------------------------- -->
+	<script>
+		// 위에서 선언한 캔버스의 인스턴스 생성
+		const ctx = document.getElementById('canvas1').getContext('2d');
+		
+		// ctx.borderDashOffset = 1.0;
+
+		const resultChart = new Chart(
+			// 차트 구현 (결과)
+			// 캔버스 인스턴스와 차트구성(config)으로 표시
+			ctx,
+			config
+		);
+	</script>
+<!-- -------------------------------------------------------------------- -->
+
+</body>
+</html>
